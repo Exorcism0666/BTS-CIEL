@@ -22,7 +22,12 @@ int main()
         numerateur = ((a * d) + (c * b));
         denominateur = b * d;
         cout << "resultat = " << resultat << " et le résultat en fraction " << numerateur << "/" << denominateur << endl;
+        if (resultat <= 1) {
+            cout << "Ce n'est pas un nombre premier." << endl;
+        }
+        for (int i = 2; i <= resultat / i; i++) {
+            
+        }
     }
-
     return 0;
 }
