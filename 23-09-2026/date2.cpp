@@ -11,7 +11,7 @@ int main()
     int annee = 0;
     string nomMois;
 
-    cout << "Entrez une date : ";
+    cout << "Veuillez entrez la date à l'anglais (AAAAMMJJ) : ";
     cin >> date;
 
     annee = date / 10000;
