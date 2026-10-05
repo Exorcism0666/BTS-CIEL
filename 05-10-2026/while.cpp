@@ -11,6 +11,10 @@ int main() {
 
     cout << "Veuillez saisir un nombre entier : ";
     cin >> nbSaisi;
+    while (nbSaisi < 1 || nbSaisi > 100) {
+        cout "Nombre incorrecte, veuillez saisir un nombre entre 1 et 100 :";
+        cin << nbSaisi;
+    }
 
     while (nbSaisi != nombre) {
         cout << "Perdu ! Recommencez : ";
