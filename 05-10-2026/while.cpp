@@ -4,6 +4,7 @@ using namespace std;
 int main() {
   int nombre = 53;
   int nbSaisi = 0;
+  int compteur = 1;
 
   cout << "---------------------------------\n" << endl;
   cout << " Jeu : Deviner un nombre \n" << endl;
@@ -16,9 +17,8 @@ int main() {
          << "n'est pas dans la plage.\nVeuillez saisir un nombre valide : ";
     cin >> nbSaisi;
   }
-
   // boucle "principale"
-  while (nbSaisi != nombre) {
+  while (nbSaisi != nombre && compteur < 5) {
     cout << "Perdu ! Recommencez : ";
     cin >> nbSaisi;
     // boucle "TANT QUE" si le nombre n'est pas bien saisi
@@ -27,7 +27,12 @@ int main() {
            << "n'est pas dans la plage.\nVeuillez saisir un nombre valide : ";
       cin >> nbSaisi;
     }
+    compteur++;
   }
-  cout << "Gagné !" << endl;
+  if (compteur == 5) {
+    cout << "Perdu !" << endl;
+  } else {
+    cout << "Gagné !" << endl;
+  }
   return 0;
 }
