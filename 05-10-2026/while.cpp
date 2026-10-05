@@ -13,8 +13,8 @@ int main() {
   cin >> nbSaisi;
   while (nbSaisi < 1 || nbSaisi > 100) {
     cout << "Le nombre " << nbSaisi
-         << "n'est pas dans la plage.\nVeuillez saisir un nombre valide : " cin
-         << nbSaisi;
+         << "n'est pas dans la plage.\nVeuillez saisir un nombre valide : ";
+    cin >> nbSaisi;
   }
 
   // boucle "principale"
@@ -23,10 +23,9 @@ int main() {
     cin >> nbSaisi;
     // boucle "TANT QUE" si le nombre n'est pas bien saisi
     while (nbSaisi < 1 || nbSaisi > 100) {
-      cout
-          << "Le nombre " << nbSaisi
-          << "n'est pas dans la plage.\nVeuillez saisir un nombre valide : " cin
-          << nbSaisi;
+      cout << "Le nombre " << nbSaisi
+           << "n'est pas dans la plage.\nVeuillez saisir un nombre valide : ";
+      cin >> nbSaisi;
     }
   }
   cout << "Gagné !" << endl;
