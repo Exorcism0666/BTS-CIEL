@@ -41,6 +41,9 @@ int main(void) {
     cin >> menu;
 
     switch (menu) {
+    case 0:
+      cout << "Fin de programme." << endl;
+      break;
     case 1:
       cout << "Saisissez 8 valeurs de températures" << endl;
       for (int i = 0; i < NB_RELEVES; i++) {
@@ -84,23 +87,27 @@ int main(void) {
       break;
     }
     case 3: {
-      double minimum = temp[0];
-      double maximum = temp[0];
-      double somme = 0;
-      double moyenne = 0;
+      if (saisieFaite == true) {
+        double minimum = temp[0];
+        double maximum = temp[0];
+        double somme = 0;
+        double moyenne = 0;
 
-      for (int i = 0; i < NB_RELEVES; i++) {
-        if (temp[i] < minimum)
-          minimum = temp[i];
-        if (temp[i] > maximum)
-          maximum = temp[i];
-        somme += temp[i];
+        for (int i = 0; i < NB_RELEVES; i++) {
+          if (temp[i] < minimum)
+            minimum = temp[i];
+          if (temp[i] > maximum)
+            maximum = temp[i];
+          somme += temp[i];
+        }
+        moyenne = somme / NB_RELEVES;
+
+        cout << "\nMinimum : " << minimum << " °C" << endl;
+        cout << "Maximum : " << maximum << " °C" << endl;
+        cout << "Moyenne : " << moyenne << " °C" << endl;
+      } else {
+        cout << "Saisissez d'abord les relevés (choix 1)." << endl;
       }
-      moyenne = somme / NB_RELEVES;
-
-      cout << "\nMinimum : " << minimum << " °C" << endl;
-      cout << "Maximum : " << maximum << " °C" << endl;
-      cout << "Moyenne : " << moyenne << " °C" << endl;
       break;
     }
     case 4: {
@@ -126,6 +133,12 @@ int main(void) {
         cout << endl;
       }
     }
+    case 5:
+      cout << "Moyenne par sonde : " << endl;
+
+    default:
+      cout << "Choix invalide." << endl;
+      break;
     }
   } while (menu != 0);
   return (0);
