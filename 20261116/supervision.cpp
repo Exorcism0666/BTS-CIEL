@@ -23,9 +23,15 @@ int main(void) {
   // Déclaration du tableau (initialisé à 0 par sécurité)
   double temp[NB_RELEVES] = {0};
 
+  // Déclaration du tableau des 4 sondes (accessible aux choix 4, 5 et 6)
+  double releves[NB_SONDES][NB_MESURES] = {
+      {22.5, 24.0, 28.5, 31.0, 36.2, 33.4},
+      {21.0, 21.5, 22.0, 22.5, 23.0, 24.0},
+      {26.0, 27.5, 29.0, 30.5, 32.0, 34.5},
+      {19.0, 20.0, 20.5, 20.0, 19.8, 20.2}};
+
   // Déclaration menu
   int menu = 0;
-
   bool saisieFaite = false;
 
   do {
@@ -44,6 +50,7 @@ int main(void) {
     case 0:
       cout << "Fin de programme." << endl;
       break;
+
     case 1:
       cout << "Saisissez 8 valeurs de températures" << endl;
       for (int i = 0; i < NB_RELEVES; i++) {
@@ -59,23 +66,19 @@ int main(void) {
 
     case 2: {
       if (saisieFaite == true) {
-        // Remise à zéro avant de recompter
         calcNormal = 0;
         calcAlerte = 0;
         calcCritique = 0;
 
         for (int i = 0; i < NB_RELEVES; i++) {
           if (temp[i] < SEUIL_ALERTE) {
-            cout << "Relevé " << i + 1 << " : " << temp[i] << " °C -> NORMAL"
-                 << endl;
+            cout << "Relevé " << i + 1 << " : " << temp[i] << " °C -> NORMAL" << endl;
             calcNormal += 1;
           } else if (SEUIL_ALERTE <= temp[i] && temp[i] < SEUIL_CRITIQUE) {
-            cout << "Relevé " << i + 1 << " : " << temp[i] << " °C -> ALERTE"
-                 << endl;
+            cout << "Relevé " << i + 1 << " : " << temp[i] << " °C -> ALERTE" << endl;
             calcAlerte += 1;
           } else if (temp[i] >= SEUIL_CRITIQUE) {
-            cout << "Relevé " << i + 1 << " : " << temp[i] << " °C -> CRITIQUE"
-                 << endl;
+            cout << "Relevé " << i + 1 << " : " << temp[i] << " °C -> CRITIQUE" << endl;
             calcCritique += 1;
           }
         }
@@ -86,6 +89,7 @@ int main(void) {
       }
       break;
     }
+
     case 3: {
       if (saisieFaite == true) {
         double minimum = temp[0];
@@ -110,36 +114,98 @@ int main(void) {
       }
       break;
     }
-    case 4: {
-      double releves[NB_SONDES][NB_MESURES] = {
-          {22.5, 24.0, 28.5, 31.0, 36.2, 33.4},
-          {21.0, 21.5, 22.0, 22.5, 23.0, 24.0},
-          {26.0, 27.5, 29.0, 30.5, 32.0, 34.5},
-          {19.0, 20.0, 20.5, 20.0, 19.8, 20.2}};
 
+    case 4: {
       // Affichage du titre des colonnes
       cout << setw(7) << "  Sonde|";
-
-      for (int j = 0; j < 6; j++) {
+      for (int j = 0; j < NB_MESURES; j++) {
         cout << setw(7) << ("R" + to_string(j + 1));
       }
       cout << endl;
+
       // Affichage des données
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < NB_SONDES; i++) {
         cout << setw(7) << i + 1 << "|";
-        for (int j = 0; j < 6; j++) {
+        for (int j = 0; j < NB_MESURES; j++) {
           cout << setw(7) << releves[i][j];
         }
         cout << endl;
       }
+      break;
     }
-    case 5:
-      cout << "Moyenne par sonde : " << endl;
+
+    case 5: {
+      // Moyenne par sonde et sonde la plus chaude
+      cout << "Moyenne par sonde :" << endl;
+      double maxMoyenne = -100.0;
+      int sondePlusChaude = 0;
+
+      for (int i = 0; i < NB_SONDES; i++) {
+        double somme = 0;
+        for (int j = 0; j < NB_MESURES; j++) {
+          somme += releves[i][j];
+        }
+        double moyenne = somme / NB_MESURES;
+        cout << "  Sonde " << i + 1 << " : " << moyenne << " °C" << endl;
+
+        if (moyenne > maxMoyenne) {
+          maxMoyenne = moyenne;
+          sondePlusChaude = i + 1;
+        }
+      }
+      cout << "Sonde la plus chaude en moyenne : sonde " << sondePlusChaude << endl;
+
+      // Maximum global et sa position
+      double maxGlobal = releves[0][0];
+      int sondeMax = 1;
+      int releveMax = 1;
+
+      for (int i = 0; i < NB_SONDES; i++) {
+        for (int j = 0; j < NB_MESURES; j++) {
+          if (releves[i][j] > maxGlobal) {
+            maxGlobal = releves[i][j];
+            sondeMax = i + 1;
+            releveMax = j + 1;
+          }
+        }
+      }
+      cout << "Maximum : " << maxGlobal << " °C (sonde " << sondeMax
+           << ", relevé " << releveMax << ")" << endl;
+
+      // État par relevé (par colonne)
+      cout << "Etat par relevé :" << endl;
+      for (int j = 0; j < NB_MESURES; j++) {
+        bool alerte = false;
+        for (int i = 0; i < NB_SONDES; i++) {
+          if (releves[i][j] >= SEUIL_ALERTE) {
+            alerte = true;
+          }
+        }
+        cout << "  Relevé " << j + 1 << " : " << (alerte ? "ALERTE" : "OK") << endl;
+      }
+      break;
+    }
+
+    case 6: {
+      for (int i = 0; i < NB_SONDES; i++) {
+        bool derive = true;
+        // On compare chaque relevé avec le précédent (à partir de j = 1)
+        for (int j = 1; j < NB_MESURES; j++) {
+          if (releves[i][j] <= releves[i][j - 1]) {
+            derive = false;
+          }
+        }
+        cout << "Sonde " << i + 1 << " : "
+             << (derive ? "dérive à la hausse" : "stable ou variable") << endl;
+      }
+      break;
+    }
 
     default:
       cout << "Choix invalide." << endl;
       break;
     }
   } while (menu != 0);
-  return (0);
+
+  return 0;
 }
